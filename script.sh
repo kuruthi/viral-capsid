@@ -15,6 +15,10 @@ url="https://trace.ncbi.nlm.nih.gov/Traces/sra/?run=" ## assign the consistent p
 input_file="$1" ## the argument i.e file name goes here
 
 while read -r line ## read line one to variable line
-do wget -v $url$line -P output ## output the html files to dir output
+do wget -v $url$line -O output/$line ## output the html files to dir output with file name as the SRA id
 done < $input_file 
 #wget -i $1
+
+cd output 
+
+### now we need to extract the json data from the html files
