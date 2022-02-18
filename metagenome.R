@@ -5,7 +5,7 @@ library(jsonlite) ## helped me import the json file into a dataframe ## the only
 setwd("~/metagenome_project/json_files")
 ### Importing the pangong tso species nested list as a tibble
 
-pangong_data <- fromJSON(txt = "pangong_sed_1.json", simplifyDataFrame = TRUE)
+pangong_data <- fromJSON(txt = "pangong.json", simplifyDataFrame = TRUE)
 colnames(pangong_data) <- c("Id", "Parent","Name","Total_count","Percent","kbp","c")
 pangong_tibble <- as_tibble(pangong_data)
 pangong_tibble$Parent

@@ -14,7 +14,7 @@ url="https://trace.ncbi.nlm.nih.gov/Traces/sra/?run=" ## assign the consistent p
 
 input_file="$1" ## the argument i.e file name goes here
 
-while read -r line
-do wget -v $url$line
+while read -r line ## read line one to variable line
+do wget -v $url$line -P output ## output the html files to dir output
 done < $input_file 
 #wget -i $1
