@@ -28,5 +28,3 @@ else
 #wget -i $1
 fi
 
-### now we need to extract the json data from the html files
-#grep '\"name\"' output/
