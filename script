@@ -17,12 +17,13 @@ from_file(){
   while read -r line
  do ## read line one to variable line
     #loading $line
-    wget -q -O - $url$line | grep "\"name\":" > $line.json ## wget  results get grepped with the keyword
+    wget -q -O - $url$line | grep "\"name\":" | sed 's_var\ oTaxAnalysisData\ =\ _\ _' | sed '$ s_}},\ _}}]_' > $line.json ## wget  results get grepped with the keyword
   ## -q tag quiet and clean terminal result -O - to send the output to STDOUT
+  ## sed to clean the data grepped
   done < $input_file
 echo "DONE"
 }
-loading(){
+loading(){ ### not working ###
 pid=$!
 text=$1
 while kill -0 $pid 2>/dev/null
@@ -60,7 +61,7 @@ elif [[ -d $1 ]]
     echo "Argument leads to a directory, Enter a filename..."
 else
     echo "Proceeding in belief that the argument is an SRA id..."
-    wget -q -O - $url$1 | grep "\"name\":" > $1.json ## adding the file extension gives a better looking result
+    wget -q -O - $url$1 | grep "\"name\":" | sed 's_var\ oTaxAnalysisData\ =_\ _' | sed '$ s_}},\ _}}]_'> $1.json ## adding the file extension gives a better looking result
     echo "DONE"
 #wget -i $1
 fi
