@@ -23,23 +23,6 @@ from_file(){
   done < $input_file
 echo "DONE"
 }
-loading(){ ### not working ###
-pid=$!
-text=$1
-while kill -0 $pid 2>/dev/null
-do
-  echo -ne "$text .\r"
-  sleep 0.5
-  echo -ne "$text ..\r"
-  sleep 0.5
-  echo -ne "$text ...\r"
-  sleep 0.5
-  echo -ne "\r\033[K"
-  echo -ne "$text\r"
-  sleep 0.5
-done
-## A function to display loading dots purely decorative
-}
 help(){
 echo
 echo "[USAGE] scrape [FILENAME] or [SRA id]"
