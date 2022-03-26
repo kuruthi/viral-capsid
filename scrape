@@ -23,6 +23,7 @@ from_file(){
   done < $input_file
 echo "DONE"
 }
+
 help(){
 echo
 echo "[USAGE] scrape [FILENAME] or [SRA id]"
