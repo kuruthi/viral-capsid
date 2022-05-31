@@ -5,8 +5,6 @@
 
 set -e ## Exit if problems arise
 #set -x ## For debugging
-## Edit this variable if there is a change to the NCBI url structure
-url="https://trace.ncbi.nlm.nih.gov/Traces/sra/?run="
 
 clear && echo "SRA scraper "
 echo "A non interactive tool to download the Taxonomic data from the NCBI SRA database"
