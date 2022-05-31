@@ -41,8 +41,8 @@ done
 }
 helpsra(){
 echo
-echo "[USAGE] scrape [FILENAME] or [SRA id]"
-echo "scrape -h or scrape --help - to print this help"
+echo "[USAGE] scrape -f [FILENAME] or -i [SRA id]"
+echo "scrape -h to print this help"
 echo
 echo "The script takes two types of arguments, A file containing the SRA ids for batch processing or a single SRA id"
 echo "The file should contain only one SRA id per line."
