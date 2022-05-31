@@ -4,14 +4,13 @@
 ##### A text file only containing the SRA ids can be obtained from the NCBI website
 
 set -e ## Exit if problems arise
-set -x ## For debugging
+#set -x ## For debugging
 ## Edit this variable if there is a change to the NCBI url structure
 url="https://trace.ncbi.nlm.nih.gov/Traces/sra/?run="
 
-[[ -f $1 ]] && input_file=$1 ## Can't do it inside the from_file() function
-
 clear && echo "SRA scraper "
 echo "A non interactive tool to download the Taxonomic data from the NCBI SRA database"
+
 ## functions
 from_file(){
 	dos2unix "$input_file" # To remove '$':'/r' which is annoying
@@ -40,7 +39,7 @@ do
 done
 ## A function to display loading dots purely decorative
 }
-help(){
+helpsra(){
 echo
 echo "[USAGE] scrape [FILENAME] or [SRA id]"
 echo "scrape -h or scrape --help - to print this help"
@@ -50,19 +49,19 @@ echo "The file should contain only one SRA id per line."
 echo "Such a file can be obtained from the NCBI website through Download > File > Accession number"
 }
 
-  if [[ -z $1 || $1 == '-h' || $1 == '--help' ]] ## -z true if the argument is empty
- then
-    help
-elif [[ -f $1 ]] ## -f true if the argument is a file
- then
-    from_file
-elif [[ -d $1 ]]
- then
-    echo "Argument leads to a directory, Enter a filename..."
-else
-    echo "Proceeding in belief that the argument is an SRA id..."
-    wget -q -O - $url$1 | grep "\"name\":" | sed 's_var\ oTaxAnalysisData\ =_\ _' | sed '$ s_}},\ _}]_' | sed 's_\"d\":{__' | sed 's_}},_},_'  > $1.json ## adding the file extension gives a better looking result
+id_search(){
+	wget -q -O - $url$1 | grep "\"name\":" | sed 's_var\ oTaxAnalysisData\ =_\ _' | sed '$ s_}},\ _}]_' | sed 's_\"d\":{__' | sed 's_}},_},_'  > $1.json ## adding the file extension gives a better looking result
     echo "DONE"
-#wget -i $1
-fi
+}
 
+
+while getopts "f:i:h" opt; do
+	case "$opt" in
+		f) [ -f "$OPTARG" ] && input_file="$OPTARG" && from_file;;
+		i) id="$OPTARG" && id_search ;;
+		h) helpsra ;;
+		\?) echo "Invalid option";;
+	esac
+done
+
+exit
