@@ -50,7 +50,7 @@ echo "Such a file can be obtained from the NCBI website through Download > File 
 }
 
 id_search(){
-	wget -q -O - $url$1 | grep "\"name\":" | sed 's_var\ oTaxAnalysisData\ =_\ _' | sed '$ s_}},\ _}]_' | sed 's_\"d\":{__' | sed 's_}},_},_'  > $1.json ## adding the file extension gives a better looking result
+	wget -q -O - "$url$id" | grep "\"name\":" | sed 's_var\ oTaxAnalysisData\ =_\ _' | sed '$ s_}},\ _}]_' | sed 's_\"d\":{__' | sed 's_}},_},_'  > $1.json ## adding the file extension gives a better looking result
     echo "DONE"
 }
 
