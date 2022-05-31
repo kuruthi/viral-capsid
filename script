@@ -4,7 +4,7 @@
 ##### A text file only containing the SRA ids can be obtained from the NCBI website
 
 set -e ## Exit if problems arise
-#set -x ## For debugging
+set -x ## For debugging
 ## Edit this variable if there is a change to the NCBI url structure
 url="https://trace.ncbi.nlm.nih.gov/Traces/sra/?run="
 
@@ -14,14 +14,14 @@ clear && echo "SRA scraper "
 echo "A non interactive tool to download the Taxonomic data from the NCBI SRA database"
 ## functions
 from_file(){
-  while read -r line
- do ## read line one to variable line
-    #loading $line
-    wget -q -O - $url$line | grep "\"name\":" | sed 's_var\ oTaxAnalysisData\ =\ _\ _' | sed '$ s_}},\ _}]_' | sed 's_\"d\":{__' | sed 's_}},_},_' > $line.json ## wget  results get grepped with the keyword name inside quotes which is present in all lines of the data
+	dos2unix "$input_file" # To remove '$':'/r' which is annoying
+	readarray -t line < "$input_file"
+	for sra in "${line[@]}"; do
+		wget -q -O - "$url$sra" | grep "\"name\":" | sed 's_var\ oTaxAnalysisData\ =\ _\ _' | sed '$ s_}},\ _}]_' | sed 's_\"d\":{__' | sed 's_}},_},_' > "$sra".json ## wget  results get grepped with the keyword name inside quotes which is present in all lines of the data
   ## -q tag quiet and clean terminal result -O - to send the output to STDOUT
   ## sed to clean the data grepped
-  done < $input_file
-echo "DONE"
+	done
+	echo "DONE"
 }
 loading(){ ### not working ###
 pid=$!
